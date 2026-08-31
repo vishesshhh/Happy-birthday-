@@ -1,0 +1,506 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background: #09070b;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.background {
+    position: fixed;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(255, 92, 140, 0.18),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(255, 0, 102, 0.10),
+            transparent 30%
+        ),
+        linear-gradient(
+            145deg,
+            #0a070b,
+            #160b12,
+            #080609
+        );
+
+    z-index: -2;
+}
+
+.background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        radial-gradient(
+            rgba(255,255,255,0.15) 1px,
+            transparent 1px
+        );
+
+    background-size: 45px 45px;
+    opacity: 0.18;
+}
+
+
+/* =========================
+   CONFETTI
+========================= */
+
+#confetti {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    z-index: 100;
+}
+
+
+/* =========================
+   MAIN CARD
+========================= */
+
+.card {
+    min-height: 100vh;
+
+    width: min(560px, 92%);
+
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 50px 20px;
+
+    animation: cardIn 1.3s ease both;
+}
+
+.small-text {
+    color: rgba(255,255,255,0.55);
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 15px;
+}
+
+
+h1 {
+    font-family: "DM Serif Display", serif;
+
+    font-size: clamp(44px, 11vw, 72px);
+
+    line-height: 1;
+
+    font-weight: 400;
+
+    margin-bottom: 25px;
+}
+
+h1 span {
+    color: #ff789f;
+    font-style: italic;
+}
+
+
+.intro {
+    max-width: 440px;
+
+    color: rgba(255,255,255,0.68);
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    margin-bottom: 30px;
+}
+
+
+/* =========================
+   PHOTO
+========================= */
+
+.photo-wrapper {
+    position: relative;
+
+    width: 240px;
+    height: 300px;
+
+    margin: 5px 0 35px;
+}
+
+.photo-glow {
+    position: absolute;
+
+    inset: -15px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,91,137,0.32),
+            transparent 70%
+        );
+
+    filter: blur(15px);
+
+    animation: glow 3s ease-in-out infinite alternate;
+}
+
+.her-photo {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 130px 130px 25px 25px;
+
+    border: 1px solid rgba(255,255,255,0.2);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.65);
+
+    animation: photoFloat 5s ease-in-out infinite;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message {
+    max-width: 430px;
+
+    color: rgba(255,255,255,0.72);
+
+    font-size: 14px;
+
+    line-height: 1.9;
+
+    margin-bottom: 35px;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+button {
+    border: none;
+
+    padding: 15px 25px;
+
+    border-radius: 50px;
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff4f86,
+            #d72f68
+        );
+
+    box-shadow:
+        0 12px 35px rgba(255, 58, 112, 0.3);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.03);
+
+    box-shadow:
+        0 18px 45px rgba(255, 58, 112, 0.45);
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+
+/* =========================
+   SURPRISE SCREEN
+========================= */
+
+.surprise-screen {
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,73,125,0.16),
+            transparent 45%
+        ),
+        #080609;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform: scale(1.08);
+
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease,
+        visibility 0.8s;
+    
+    z-index: 50;
+}
+
+.surprise-screen.active {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: scale(1);
+}
+
+
+.surprise-content {
+    max-width: 550px;
+
+    text-align: center;
+
+    animation: none;
+}
+
+.surprise-screen.active .surprise-content {
+    animation: contentIn 1s ease both;
+}
+
+
+.heart {
+    font-size: 55px;
+
+    margin-bottom: 20px;
+
+    animation: heartbeat 1.4s infinite;
+}
+
+
+h2 {
+    font-family: "DM Serif Display", serif;
+
+    font-size: clamp(42px, 10vw, 70px);
+
+    font-weight: 400;
+
+    line-height: 1.05;
+
+    margin-bottom: 25px;
+}
+
+
+.surprise-content > p:not(.small-text) {
+    color: rgba(255,255,255,0.68);
+
+    line-height: 1.9;
+
+    font-size: 14px;
+
+    margin-bottom: 30px;
+}
+
+
+.signature {
+    color: rgba(255,255,255,0.55);
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    margin-bottom: 30px;
+}
+
+.signature span {
+    color: #ff789f;
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes cardIn {
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes contentIn {
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes photoFloat {
+    0%,
+    100% {
+        transform: translateY(0) rotate(-1deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(1deg);
+    }
+}
+
+@keyframes glow {
+    from {
+        opacity: 0.5;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 0.9;
+        transform: scale(1.08);
+    }
+}
+
+@keyframes heartbeat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    15% {
+        transform: scale(1.18);
+    }
+
+    30% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.1);
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+    .card {
+        padding: 35px 18px;
+    }
+
+    h1 {
+        font-size: 48px;
+    }
+
+    .intro {
+        font-size: 13px;
+    }
+
+    .photo-wrapper {
+        width: 205px;
+        height: 265px;
+
+        margin-bottom: 30px;
+    }
+
+    .message {
+        font-size: 13px;
+    }
+
+    h2 {
+        font-size: 48px;
+    }
+
+    .surprise-screen {
+        padding: 25px 20px;
+    }
+
+}
+
+
+/* Very small phones */
+
+@media (max-height: 700px) {
+
+    .card {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+
+    .photo-wrapper {
+        width: 175px;
+        height: 220px;
+
+        margin-bottom: 20px;
+    }
+
+    .intro {
+        margin-bottom: 18px;
+    }
+
+    .message {
+        margin-bottom: 20px;
+    }
+}
