@@ -245,7 +245,12 @@ function handleKeyClick(event) {
 
         key.classList.remove("target");
 
-        key.classList.add("used");
+        // Small tap animation, but DO NOT disable the key
+        key.classList.add("correct");
+
+        setTimeout(() => {
+            key.classList.remove("correct");
+        }, 250);
 
         revealLetter(correct);
 
