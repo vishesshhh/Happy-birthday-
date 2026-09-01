@@ -2,100 +2,187 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>For Upma ❤️</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600&display=swap"
+          rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Background -->
-    <div class="background"></div>
-
-    <!-- Confetti Canvas -->
     <canvas id="confetti"></canvas>
 
-    <!-- Main Card -->
-    <main class="card">
+    <div class="stars"></div>
 
-        <div class="small-text">
-            A little surprise for you
-        </div>
+    <!-- ==============================
+         INTRO
+    =============================== -->
 
-        <h1>
-            Hey, <span>Upma</span> ❤️
-        </h1>
+    <section class="screen intro-screen" id="introScreen">
 
-        <p class="intro">
-            There are some people who make ordinary days
-            feel a little more special.
-        </p>
+        <div class="intro-inner">
 
-        <!-- PHOTO -->
-        <div class="photo-wrapper">
-            <div class="photo-glow"></div>
-
-            <img
-                src="assets/her-photo.jpg"
-                alt="Upma"
-                class="her-photo"
-            >
-        </div>
-
-        <p class="message">
-            And you're one of those people.
-            <br><br>
-            So here's a tiny little corner of the internet
-            made just for you. ✨
-        </p>
-
-        <button id="surpriseBtn">
-            Open your surprise 💌
-        </button>
-
-    </main>
-
-
-    <!-- Second Screen -->
-    <section class="surprise-screen" id="surpriseScreen">
-
-        <div class="surprise-content">
-
-            <div class="heart">❤️</div>
-
-            <p class="small-text">
-                One more thing...
-            </p>
-
-            <h2>
-                You deserve<br>
-                all the happiness.
-            </h2>
-
-            <p>
-                May your smile always stay this beautiful,
-                and may life give you countless reasons
-                to keep smiling.
-            </p>
-
-            <div class="signature">
-                With love,<br>
-                <span>Someone who cares ❤️</span>
+            <div class="tiny-label">
+                A little something for you
             </div>
 
-            <button id="againBtn">
-                One more confetti 🎉
+            <div class="intro-heart">
+                ♡
+            </div>
+
+            <h1>
+                Hey<br>
+                <span>Upma</span>
+            </h1>
+
+            <p>
+                I made something special for you.
+            </p>
+
+            <button class="primary-btn" id="startBtn">
+                Tap to begin
             </button>
 
         </div>
 
     </section>
+
+
+    <!-- ==============================
+         LETTER GAME
+    =============================== -->
+
+    <section class="screen letter-screen hidden" id="letterScreen">
+
+        <div class="letter-top">
+
+            <div class="progress-label">
+                SOMETHING IS HIDDEN HERE
+            </div>
+
+            <div class="progress-bar">
+                <div id="progressFill"></div>
+            </div>
+
+        </div>
+
+
+        <div class="letter-area">
+
+            <div class="instruction">
+                Find the letters...
+            </div>
+
+            <div class="hidden-message" id="hiddenMessage">
+            </div>
+
+            <div class="revealed-message" id="revealedMessage">
+            </div>
+
+            <div class="hint" id="hint">
+                Tap the glowing letters
+            </div>
+
+        </div>
+
+
+        <div class="keyboard" id="keyboard">
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         PHOTO REVEAL
+    =============================== -->
+
+    <section class="screen photo-screen hidden" id="photoScreen">
+
+        <div class="photo-content">
+
+            <div class="photo-label">
+                AND THEN...
+            </div>
+
+            <div class="photo-frame">
+
+                <div class="photo-shine"></div>
+
+                <img
+                    src="assets/her-photo.jpg"
+                    alt="Upma"
+                >
+
+            </div>
+
+            <h2>
+                There you are. ❤️
+            </h2>
+
+            <p>
+                The person behind all these little reasons
+                to smile.
+            </p>
+
+            <button class="primary-btn" id="finalBtn">
+                One last thing
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         FINAL
+    =============================== -->
+
+    <section class="screen final-screen hidden" id="finalScreen">
+
+        <div class="final-content">
+
+            <div class="final-heart">
+                ❤️
+            </div>
+
+            <div class="tiny-label">
+                FOR YOU
+            </div>
+
+            <h2>
+                Happy<br>
+                <span>Birthday</span>
+            </h2>
+
+            <p class="final-message">
+                I hope this little surprise makes you smile
+                even for a moment.
+                <br><br>
+                You deserve beautiful things,
+                beautiful moments,
+                and countless reasons to be happy.
+            </p>
+
+            <div class="from">
+                Made with ❤️
+            </div>
+
+            <button class="secondary-btn" id="confettiBtn">
+                Celebrate again 🎉
+            </button>
+
+        </div>
+
+    </section>
+
 
     <script src="script.js"></script>
 
