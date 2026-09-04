@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -9,20 +10,28 @@ html,
 body {
     width: 100%;
     height: 100%;
+
     overflow: hidden;
+
+    background: #070508;
 }
 
 body {
-    background: #080609;
-    color: #fff;
+    color: white;
 
     font-family: "Poppins", sans-serif;
+
+    touch-action: manipulation;
 }
 
 
-/* =================================
-   GENERAL
-================================= */
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+.hidden {
+    display: none !important;
+}
 
 .screen {
     position: fixed;
@@ -34,31 +43,52 @@ body {
 
     overflow: hidden;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(255, 62, 120, 0.11),
+            transparent 42%
+        ),
+        #070508;
+
+    z-index: 1;
+}
+
+
+/* =====================================================
+   BACKGROUND
+===================================================== */
+
+.background-glow {
+    position: fixed;
+
+    width: 70vw;
+    height: 70vw;
+
+    max-width: 600px;
+    max-height: 600px;
+
+    left: 50%;
+    top: 45%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
 
     background:
         radial-gradient(
-            circle at 50% 35%,
-            rgba(255, 75, 125, .12),
-            transparent 40%
-        ),
-        #080609;
+            circle,
+            rgba(255, 55, 115, .13),
+            transparent 68%
+        );
 
-    transition:
-        opacity .8s ease,
-        transform .8s ease;
+    filter: blur(25px);
+
+    pointer-events: none;
+
+    z-index: 0;
 }
 
-.hidden {
-    display: none !important;
-}
-
-
-/* =================================
-   STAR BACKGROUND
-================================= */
 
 .stars {
     position: fixed;
@@ -67,304 +97,412 @@ body {
 
     pointer-events: none;
 
+    z-index: 0;
+
+    opacity: .45;
+
     background-image:
         radial-gradient(
-            1px 1px at 10% 20%,
-            rgba(255,255,255,.6),
+            1px 1px at 15% 20%,
+            white,
             transparent
         ),
         radial-gradient(
-            1px 1px at 30% 70%,
-            rgba(255,255,255,.4),
+            1px 1px at 80% 18%,
+            white,
             transparent
         ),
         radial-gradient(
-            1px 1px at 70% 25%,
-            rgba(255,255,255,.5),
+            1px 1px at 25% 75%,
+            white,
             transparent
         ),
         radial-gradient(
-            1px 1px at 90% 65%,
-            rgba(255,255,255,.4),
+            1px 1px at 70% 82%,
+            white,
             transparent
         ),
         radial-gradient(
-            1px 1px at 50% 85%,
-            rgba(255,255,255,.5),
+            1px 1px at 50% 50%,
+            white,
             transparent
         );
 
     background-size:
-        180px 180px,
-        240px 240px,
-        200px 200px,
-        260px 260px,
-        220px 220px;
-
-    opacity: .45;
-
-    z-index: 0;
+        160px 160px,
+        220px 220px,
+        190px 190px,
+        250px 250px,
+        300px 300px;
 }
 
 
-/* =================================
-   INTRO
-================================= */
+/* =====================================================
+   CONFETTI
+===================================================== */
 
-.intro-inner {
+#confettiCanvas {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100dvh;
+
+    pointer-events: none;
+
+    z-index: 9999;
+}
+
+
+/* =====================================================
+   TYPOGRAPHY
+===================================================== */
+
+.eyebrow {
+    font-size: 9px;
+
+    letter-spacing: 4px;
+
+    color: rgba(255,255,255,.42);
+
+    text-transform: uppercase;
+}
+
+
+h1,
+h2 {
+    font-family: "DM Serif Display", serif;
+
+    font-weight: 400;
+}
+
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+.intro-screen {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+}
+
+
+.intro-content {
+    width: 100%;
+
+    padding: 25px;
+
     position: relative;
 
     z-index: 2;
 
-    width: 100%;
-
-    padding: 30px;
-
-    text-align: center;
-
-    animation: appear 1.2s ease;
+    animation: fadeUp 1s ease;
 }
 
-.tiny-label,
-.progress-label,
-.photo-label {
-    font-size: 10px;
 
-    letter-spacing: 4px;
-
-    text-transform: uppercase;
-
-    color: rgba(255,255,255,.45);
-}
-
-.intro-heart {
-    font-size: 70px;
+.big-heart {
+    font-size: 85px;
 
     line-height: 1;
 
-    color: #ff638e;
-
     margin: 25px 0;
+
+    color: #ff658f;
 
     animation: heartbeat 1.7s infinite;
 }
 
-h1 {
-    font-family: "DM Serif Display", serif;
 
-    font-weight: 400;
-
-    font-size: clamp(70px, 22vw, 125px);
+.intro-content h1 {
+    font-size: clamp(
+        72px,
+        22vw,
+        125px
+    );
 
     line-height: .82;
 
-    letter-spacing: -4px;
+    letter-spacing: -5px;
 
     margin-bottom: 35px;
 }
 
-h1 span {
-    color: #ff7199;
+
+.intro-content h1 span {
+    display: block;
+
+    color: #ff6c96;
 
     font-style: italic;
 }
 
-.intro-inner p {
-    color: rgba(255,255,255,.55);
 
+.intro-content p {
     font-size: 14px;
+
+    color: rgba(255,255,255,.5);
 
     margin-bottom: 35px;
 }
 
 
-/* =================================
-   BUTTONS
-================================= */
+/* =====================================================
+   BUTTON
+===================================================== */
 
-.primary-btn,
-.secondary-btn {
+.main-button {
     border: 0;
 
-    color: #fff;
+    min-height: 52px;
+
+    padding: 0 27px;
+
+    border-radius: 100px;
+
+    color: white;
 
     font-family: inherit;
 
     font-size: 13px;
 
-    padding: 16px 30px;
-
-    border-radius: 100px;
-
-    cursor: pointer;
-
     background:
         linear-gradient(
             135deg,
-            #ff5b8a,
-            #d62f67
+            #ff5d8b,
+            #d92f67
         );
 
     box-shadow:
-        0 12px 40px rgba(255,70,120,.25);
+        0 15px 45px rgba(255,60,120,.25);
 
-    transition: transform .2s ease;
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
 }
 
-.primary-btn:active,
-.secondary-btn:active {
+
+.main-button span {
+    margin-left: 10px;
+
+    font-size: 17px;
+}
+
+
+.main-button:active {
     transform: scale(.94);
 }
 
 
-/* =================================
-   LETTER SCREEN
-================================= */
+/* =====================================================
+   GAME SCREEN
+===================================================== */
 
-.letter-screen {
-    flex-direction: column;
-
-    justify-content: space-between;
-
-    padding:
-        45px 18px
-        calc(12px + env(safe-area-inset-bottom));
-}
-
-.letter-top {
-    width: 100%;
-
-    max-width: 600px;
-
-    padding-top: 10px;
-}
-
-.progress-bar {
-    width: 100%;
-
-    height: 2px;
-
-    margin-top: 12px;
-
-    background: rgba(255,255,255,.1);
-
-    border-radius: 10px;
-
-    overflow: hidden;
-}
-
-#progressFill {
-    width: 0%;
-
-    height: 100%;
-
-    background: #ff6c96;
-
-    transition: width .4s ease;
-}
-
-
-/* =================================
-   LETTER AREA
-================================= */
-
-.letter-area {
-    flex: 1;
-
-    width: 100%;
-
+.game-screen {
     display: flex;
 
     flex-direction: column;
 
     align-items: center;
 
+    justify-content: space-between;
+
+    padding:
+        max(25px, env(safe-area-inset-top))
+        10px
+        max(8px, env(safe-area-inset-bottom));
+
+    z-index: 2;
+}
+
+
+/* =====================================================
+   GAME HEADER
+===================================================== */
+
+.game-header {
+    width: 100%;
+
+    max-width: 500px;
+
+    padding: 7px 5px 0;
+}
+
+
+.progress-track {
+    width: 100%;
+
+    height: 2px;
+
+    margin-top: 13px;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.08);
+
+    overflow: hidden;
+}
+
+
+#progressBar {
+    width: 0%;
+
+    height: 100%;
+
+    background: #ff668f;
+
+    transition: width .35s ease;
+}
+
+
+/* =====================================================
+   GAME CENTER
+===================================================== */
+
+.game-center {
+    width: 100%;
+
+    flex: 1;
+
+    min-height: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
     justify-content: center;
+
+    align-items: center;
 
     text-align: center;
 
-    min-height: 0;
+    padding:
+        20px 5px
+        10px;
 }
+
 
 .instruction {
-    color: rgba(255,255,255,.45);
-
-    font-size: 12px;
+    font-size: 11px;
 
     letter-spacing: 2px;
 
-    margin-bottom: 30px;
+    color: rgba(255,255,255,.42);
+
+    margin-bottom: 25px;
 }
 
 
-/* The hidden message */
+/* =====================================================
+   MESSAGE
+===================================================== */
 
-.hidden-message {
-    font-family: "DM Serif Display", serif;
+.message-display {
+    width: 100%;
+
+    max-width: 420px;
+
+    min-height: 125px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    padding: 5px;
+
+    font-family:
+        "DM Serif Display",
+        serif;
 
     font-size: clamp(
-        32px,
+        34px,
         9vw,
-        58px
+        55px
     );
 
     line-height: 1.15;
 
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 
-    max-width: 95%;
+    word-break: normal;
 
-    min-height: 75px;
-
-    color: rgba(255,255,255,.18);
-
-    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 
-/* Revealed message */
+/* Individual letters */
 
-.revealed-message {
-    position: absolute;
+.message-char {
+    display: inline-block;
 
-    max-width: 90%;
+    min-width: .42em;
 
-    font-family: "DM Serif Display", serif;
+    transition:
+        color .3s ease,
+        transform .3s ease;
+}
 
-    font-size: clamp(
-        32px,
-        9vw,
-        58px
-    );
 
-    line-height: 1.15;
+.message-char.hidden-char {
+    color: rgba(255,255,255,.17);
+}
 
-    letter-spacing: 2px;
 
+.message-char.revealed {
     color: #fff;
 
-    pointer-events: none;
+    animation:
+        letterReveal .35s ease;
 }
 
-.hint {
-    margin-top: 28px;
+
+.message-space {
+    width: .35em;
+}
+
+
+/* =====================================================
+   GAME HINT
+===================================================== */
+
+.game-hint {
+    margin-top: 18px;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
 
     color: rgba(255,255,255,.3);
 
-    font-size: 11px;
-
-    letter-spacing: 1px;
+    min-height: 18px;
 }
 
 
-/* =================================
+/* =====================================================
    KEYBOARD
-================================= */
+===================================================== */
 
 .keyboard {
     width: 100%;
 
-    max-width: 600px;
+    max-width: 500px;
+
+    padding:
+        0
+        0
+        5px;
 
     display: flex;
 
@@ -372,40 +510,59 @@ h1 span {
 
     gap: 7px;
 
-    padding-bottom: 5px;
+    flex-shrink: 0;
 }
 
+
 .key-row {
+    width: 100%;
+
     display: flex;
 
     justify-content: center;
 
     gap: 5px;
-
-    width: 100%;
 }
 
+
+/*
+    IMPORTANT:
+
+    flex: 1 means the keyboard stretches
+    across the entire phone width.
+*/
+
 .key {
-    position: relative;
+    flex: 1;
 
-    width: 100%;
+    min-width: 0;
 
-    max-width: 45px;
+    height: clamp(
+        47px,
+        12vw,
+        58px
+    );
 
-    aspect-ratio: .82;
+    border-radius: 8px;
 
-    border-radius: 7px;
-
-    border: 1px solid rgba(255,255,255,.08);
+    border: 1px solid
+        rgba(255,255,255,.09);
 
     background:
-        rgba(255,255,255,.055);
+        rgba(255,255,255,.065);
 
-    color: rgba(255,255,255,.35);
+    color:
+        rgba(255,255,255,.58);
 
     font-family: inherit;
 
-    font-size: clamp(10px, 3.2vw, 14px);
+    font-size: clamp(
+        14px,
+        4vw,
+        18px
+    );
+
+    font-weight: 500;
 
     display: flex;
 
@@ -415,214 +572,284 @@ h1 span {
 
     cursor: pointer;
 
+    box-shadow:
+        0 3px 8px rgba(0,0,0,.3);
+
     transition:
-        transform .15s ease,
+        transform .12s ease,
         background .2s ease,
         color .2s ease,
+        border-color .2s ease,
         box-shadow .2s ease;
 }
 
-.key:active {
-    transform: scale(.9);
-}
 
-
-/* Correct hidden letters */
+/* Target */
 
 .key.target {
-    color: #fff;
-
-    border-color: rgba(255,105,150,.5);
+    color: white;
 
     background:
-        rgba(255,70,120,.13);
+        rgba(255,76,132,.20);
+
+    border-color:
+        rgba(255,102,145,.7);
 
     box-shadow:
-        0 0 15px rgba(255,70,120,.16);
+        0 0 18px
+        rgba(255,70,125,.38);
 
     animation:
-        keyPulse 1.5s infinite;
+        targetPulse 1.1s infinite;
 }
 
 
-/* Already selected */
+/*
+    Correct tap:
 
-.key.used {
-    opacity: .15;
+    IMPORTANT:
+    The key is NOT disabled.
+    It remains available for another tap.
+*/
 
-    transform: scale(.8);
+.key.correct-tap {
+    background:
+        rgba(255,105,155,.38);
 
-    pointer-events: none;
+    border-color:
+        rgba(255,140,175,.9);
+
+    color: white;
+
+    transform: scale(.91);
 }
 
 
-/* Wrong letter */
+/* Wrong tap */
 
-.key.wrong {
-    animation: shake .3s ease;
+.key.wrong-tap {
+    animation:
+        shake .28s ease;
 }
 
 
-/* =================================
+/* =====================================================
    PHOTO
-================================= */
+===================================================== */
 
 .photo-screen {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
     text-align: center;
 
-    padding: 30px;
+    padding: 25px;
 }
+
 
 .photo-content {
     width: 100%;
 
-    max-width: 500px;
+    max-width: 480px;
 
-    animation: appear 1s ease;
+    animation: fadeUp .8s ease;
 }
+
 
 .photo-frame {
     position: relative;
 
-    width: min(78vw, 330px);
+    width: min(
+        76vw,
+        330px
+    );
 
-    height: min(105vw, 430px);
+    height: min(
+        100vw,
+        420px
+    );
 
-    margin: 25px auto 30px;
+    margin:
+        22px auto
+        25px;
 
-    padding: 7px;
+    padding: 6px;
 
-    border-radius: 170px 170px 30px 30px;
+    border-radius:
+        170px
+        170px
+        30px
+        30px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,.8),
-            rgba(255,91,137,.35),
+            rgba(255,255,255,.85),
+            rgba(255,91,137,.5),
             rgba(255,255,255,.15)
         );
 
     box-shadow:
-        0 30px 100px rgba(0,0,0,.65),
-        0 0 60px rgba(255,80,130,.16);
+        0 30px 90px
+        rgba(0,0,0,.7),
+
+        0 0 50px
+        rgba(255,70,125,.18);
+
+    overflow: hidden;
 }
+
 
 .photo-frame img {
     width: 100%;
     height: 100%;
 
+    display: block;
+
     object-fit: cover;
 
-    border-radius: inherit;
-
-    display: block;
+    border-radius:
+        165px
+        165px
+        25px
+        25px;
 }
 
-.photo-shine {
+
+.photo-glare {
     position: absolute;
 
     inset: 0;
 
-    border-radius: inherit;
+    z-index: 2;
 
     pointer-events: none;
 
     background:
         linear-gradient(
             110deg,
-            transparent 30%,
+            transparent 25%,
             rgba(255,255,255,.25),
             transparent 65%
         );
 
-    transform: translateX(-100%);
+    transform:
+        translateX(-120%);
 
-    animation: shine 4s infinite;
+    animation:
+        glare 4s infinite;
 }
 
+
 .photo-content h2 {
-    font-family: "DM Serif Display", serif;
-
-    font-size: clamp(38px, 10vw, 60px);
-
-    font-weight: 400;
+    font-size:
+        clamp(
+            40px,
+            11vw,
+            62px
+        );
 
     margin-bottom: 10px;
 }
 
+
 .photo-content p {
-    color: rgba(255,255,255,.5);
+    color:
+        rgba(255,255,255,.52);
 
     font-size: 13px;
+
+    line-height: 1.8;
 
     margin-bottom: 25px;
 }
 
 
-/* =================================
+/* =====================================================
    FINAL
-================================= */
+===================================================== */
+
+.final-screen {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
 
 .final-content {
     width: 100%;
 
-    max-width: 550px;
+    max-width: 500px;
 
-    padding: 30px;
+    padding: 25px;
 
-    text-align: center;
-
-    animation: appear 1s ease;
+    animation: fadeUp .9s ease;
 }
+
 
 .final-heart {
     font-size: 55px;
 
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 
-    animation: heartbeat 1.5s infinite;
+    animation:
+        heartbeat 1.5s infinite;
 }
+
 
 .final-content h2 {
-    font-family: "DM Serif Display", serif;
+    font-size:
+        clamp(
+            70px,
+            19vw,
+            110px
+        );
 
-    font-size: clamp(
-        65px,
-        19vw,
-        110px
-    );
+    line-height: .82;
 
-    font-weight: 400;
+    letter-spacing: -4px;
 
-    line-height: .85;
-
-    letter-spacing: -3px;
-
-    margin: 20px 0 35px;
+    margin:
+        22px 0
+        35px;
 }
 
+
 .final-content h2 span {
-    color: #ff6f98;
+    display: block;
+
+    color: #ff6d97;
 
     font-style: italic;
 }
 
+
 .final-message {
-    max-width: 420px;
+    max-width: 410px;
 
     margin: auto;
 
-    color: rgba(255,255,255,.62);
+    color:
+        rgba(255,255,255,.62);
 
     font-size: 13px;
 
     line-height: 1.9;
 }
 
-.from {
-    margin: 30px 0;
 
-    color: rgba(255,255,255,.35);
+.signature {
+    margin: 27px 0;
+
+    color:
+        rgba(255,255,255,.35);
 
     font-size: 11px;
 
@@ -630,32 +857,96 @@ h1 span {
 }
 
 
-/* =================================
-   ANIMATIONS
-================================= */
+/* =====================================================
+   CELEBRATE BUTTON
+===================================================== */
 
-@keyframes appear {
+.celebrate-button {
+    min-height: 58px;
+
+    padding:
+        0 30px;
+
+    border: 1px solid
+        rgba(255,255,255,.15);
+
+    border-radius: 100px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff5c8c,
+            #d82e67
+        );
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    box-shadow:
+        0 15px 50px
+        rgba(255,60,120,.3);
+
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease;
+}
+
+
+.celebrate-button:active {
+    transform:
+        scale(.91);
+
+    box-shadow:
+        0 8px 25px
+        rgba(255,60,120,.4);
+}
+
+
+.celebrate-hint {
+    margin-top: 15px;
+
+    color:
+        rgba(255,255,255,.25);
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes fadeUp {
 
     from {
         opacity: 0;
 
         transform:
-            translateY(25px)
-            scale(.97);
+            translateY(25px);
     }
 
     to {
         opacity: 1;
 
         transform:
-            translateY(0)
-            scale(1);
+            translateY(0);
     }
 }
 
+
 @keyframes heartbeat {
 
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(1);
     }
 
@@ -672,22 +963,58 @@ h1 span {
     }
 }
 
-@keyframes keyPulse {
 
-    0%, 100% {
+@keyframes targetPulse {
+
+    0%,
+    100% {
         box-shadow:
-            0 0 10px rgba(255,70,120,.1);
+            0 0 10px
+            rgba(255,70,125,.18);
+
+        transform: scale(1);
     }
 
     50% {
         box-shadow:
-            0 0 24px rgba(255,70,120,.45);
+            0 0 27px
+            rgba(255,70,125,.55);
+
+        transform: scale(1.04);
     }
 }
 
+
+@keyframes letterReveal {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            scale(.5)
+            translateY(8px);
+    }
+
+    70% {
+        transform:
+            scale(1.15)
+            translateY(-2px);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+    }
+}
+
+
 @keyframes shake {
 
-    0%, 100% {
+    0%,
+    100% {
         transform: translateX(0);
     }
 
@@ -700,26 +1027,80 @@ h1 span {
     }
 }
 
-@keyframes shine {
+
+@keyframes glare {
 
     0% {
-        transform: translateX(-120%);
+        transform:
+            translateX(-120%);
     }
 
-    30%, 100% {
-        transform: translateX(120%);
+    35%,
+    100% {
+        transform:
+            translateX(120%);
     }
 }
 
 
-/* =================================
+/* =====================================================
    SMALL PHONES
-================================= */
+===================================================== */
 
-@media (max-height: 680px) {
+@media (max-width: 370px) {
 
-    .letter-screen {
-        padding-top: 25px;
+    .game-screen {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+    .key-row {
+        gap: 3px;
+    }
+
+    .key {
+        height: 45px;
+
+        border-radius: 7px;
+
+        font-size: 13px;
+    }
+
+    .message-display {
+        font-size: 31px;
+    }
+}
+
+
+/* =====================================================
+   SHORT PHONES
+===================================================== */
+
+@media (max-height: 700px) {
+
+    .game-screen {
+        padding-top: 18px;
+    }
+
+    .game-center {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .instruction {
+        margin-bottom: 12px;
+    }
+
+    .message-display {
+        min-height: 95px;
+    }
+
+    .game-hint {
+        margin-top: 8px;
+    }
+
+    .key {
+        height: 43px;
     }
 
     .keyboard {
@@ -728,17 +1109,5 @@ h1 span {
 
     .key-row {
         gap: 3px;
-    }
-
-    .key {
-        max-width: 38px;
-    }
-
-    .instruction {
-        margin-bottom: 15px;
-    }
-
-    .hint {
-        margin-top: 12px;
     }
 }
