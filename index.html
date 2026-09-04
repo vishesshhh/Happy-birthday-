@@ -2,53 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
 
     <title>For Upma ❤️</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600&display=swap"
-          rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <canvas id="confetti"></canvas>
+    <!-- =================================================
+         BACKGROUND
+    ================================================== -->
 
+    <div class="background-glow"></div>
     <div class="stars"></div>
 
-    <!-- ==============================
-         INTRO
-    =============================== -->
+    <!-- CONFETTI -->
+    <canvas id="confettiCanvas"></canvas>
 
-    <section class="screen intro-screen" id="introScreen">
 
-        <div class="intro-inner">
+    <!-- =================================================
+         SCREEN 1
+    ================================================== -->
 
-            <div class="tiny-label">
-                A little something for you
+    <section id="introScreen" class="screen intro-screen">
+
+        <div class="intro-content">
+
+            <div class="eyebrow">
+                A LITTLE SURPRISE
             </div>
 
-            <div class="intro-heart">
+            <div class="big-heart">
                 ♡
             </div>
 
             <h1>
-                Hey<br>
+                Hey,
                 <span>Upma</span>
             </h1>
 
             <p>
-                I made something special for you.
+                I hid something special for you.
             </p>
 
-            <button class="primary-btn" id="startBtn">
-                Tap to begin
+            <button id="startButton" class="main-button">
+                Let's begin
+                <span>→</span>
             </button>
 
         </div>
@@ -56,65 +69,88 @@
     </section>
 
 
-    <!-- ==============================
-         LETTER GAME
-    =============================== -->
 
-    <section class="screen letter-screen hidden" id="letterScreen">
+    <!-- =================================================
+         SCREEN 2 — HIDDEN LETTER GAME
+    ================================================== -->
 
-        <div class="letter-top">
+    <section
+        id="gameScreen"
+        class="screen game-screen hidden"
+    >
 
-            <div class="progress-label">
+        <div class="game-header">
+
+            <div class="eyebrow">
                 SOMETHING IS HIDDEN HERE
             </div>
 
-            <div class="progress-bar">
-                <div id="progressFill"></div>
+            <div class="progress-track">
+                <div id="progressBar"></div>
             </div>
 
         </div>
 
 
-        <div class="letter-area">
+        <div class="game-center">
 
             <div class="instruction">
                 Find the letters...
             </div>
 
-            <div class="hidden-message" id="hiddenMessage">
-            </div>
 
-            <div class="revealed-message" id="revealedMessage">
-            </div>
+            <!-- MESSAGE -->
+            <div
+                id="messageDisplay"
+                class="message-display"
+            ></div>
 
-            <div class="hint" id="hint">
-                Tap the glowing letters
+
+            <div
+                id="gameHint"
+                class="game-hint"
+            >
+                Tap the glowing letter
             </div>
 
         </div>
 
 
-        <div class="keyboard" id="keyboard">
-        </div>
+        <!-- KEYBOARD -->
+        <div
+            id="keyboard"
+            class="keyboard"
+        ></div>
 
     </section>
 
 
-    <!-- ==============================
-         PHOTO REVEAL
-    =============================== -->
 
-    <section class="screen photo-screen hidden" id="photoScreen">
+    <!-- =================================================
+         SCREEN 3 — PHOTO
+    ================================================== -->
+
+    <section
+        id="photoScreen"
+        class="screen photo-screen hidden"
+    >
 
         <div class="photo-content">
 
-            <div class="photo-label">
-                AND THEN...
+            <div class="eyebrow">
+                YOU FOUND IT
             </div>
+
 
             <div class="photo-frame">
 
-                <div class="photo-shine"></div>
+                <div class="photo-glare"></div>
+
+                <!--
+                    REPLACE ONLY THIS FILE:
+
+                    assets/her-photo.jpg
+                -->
 
                 <img
                     src="assets/her-photo.jpg"
@@ -123,17 +159,23 @@
 
             </div>
 
+
             <h2>
                 There you are. ❤️
             </h2>
 
             <p>
-                The person behind all these little reasons
-                to smile.
+                And now there's one more thing
+                I wanted to tell you...
             </p>
 
-            <button class="primary-btn" id="finalBtn">
+
+            <button
+                id="finalButton"
+                class="main-button"
+            >
                 One last thing
+                <span>→</span>
             </button>
 
         </div>
@@ -141,11 +183,15 @@
     </section>
 
 
-    <!-- ==============================
-         FINAL
-    =============================== -->
 
-    <section class="screen final-screen hidden" id="finalScreen">
+    <!-- =================================================
+         SCREEN 4 — FINAL
+    ================================================== -->
+
+    <section
+        id="finalScreen"
+        class="screen final-screen hidden"
+    >
 
         <div class="final-content">
 
@@ -153,31 +199,58 @@
                 ❤️
             </div>
 
-            <div class="tiny-label">
+            <div class="eyebrow">
                 FOR YOU
             </div>
 
+
             <h2>
-                Happy<br>
+                Happy
                 <span>Birthday</span>
             </h2>
 
+
             <p class="final-message">
-                I hope this little surprise makes you smile
-                even for a moment.
+
+                I hope this little surprise
+                makes you smile.
+
                 <br><br>
-                You deserve beautiful things,
-                beautiful moments,
-                and countless reasons to be happy.
+
+                You deserve beautiful moments,
+                genuine happiness,
+                and countless reasons
+                to smile.
+
+                <br><br>
+
+                Stay exactly the way you are. ❤️
+
             </p>
 
-            <div class="from">
-                Made with ❤️
+
+            <div class="signature">
+                Made with love
             </div>
 
-            <button class="secondary-btn" id="confettiBtn">
-                Celebrate again 🎉
+
+            <!-- THIS BUTTON CAN BE PRESSED
+                 OVER AND OVER AGAIN -->
+
+            <button
+                id="celebrateButton"
+                class="celebrate-button"
+            >
+                🎉 Let's Celebrate
             </button>
+
+
+            <div
+                id="celebrateHint"
+                class="celebrate-hint"
+            >
+                Tap it again...
+            </div>
 
         </div>
 
