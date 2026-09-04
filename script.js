@@ -1,27 +1,32 @@
-/* =========================================
-   SETTINGS
-========================================= */
+/* =====================================================
+   CUSTOMIZE THIS
+===================================================== */
 
 /*
-   CHANGE THIS MESSAGE IF YOU WANT.
+   Change ONLY this line if you want another message.
 
-   Keep it reasonably short for the
-   mobile keyboard experience.
+   Spaces are automatically preserved.
+
+   Example:
+
+   const SECRET_MESSAGE =
+       "I LOVE YOU UPMA";
+
 */
 
 const SECRET_MESSAGE =
     "HAPPY BIRTHDAY UPMA ❤️";
 
 
-/* =========================================
-   SCREEN ELEMENTS
-========================================= */
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
 const introScreen =
     document.getElementById("introScreen");
 
-const letterScreen =
-    document.getElementById("letterScreen");
+const gameScreen =
+    document.getElementById("gameScreen");
 
 const photoScreen =
     document.getElementById("photoScreen");
@@ -29,306 +34,112 @@ const photoScreen =
 const finalScreen =
     document.getElementById("finalScreen");
 
-const startBtn =
-    document.getElementById("startBtn");
+const startButton =
+    document.getElementById("startButton");
 
-const finalBtn =
-    document.getElementById("finalBtn");
+const finalButton =
+    document.getElementById("finalButton");
 
-const confettiBtn =
-    document.getElementById("confettiBtn");
+const celebrateButton =
+    document.getElementById("celebrateButton");
+
+const celebrateHint =
+    document.getElementById("celebrateHint");
 
 const keyboard =
     document.getElementById("keyboard");
 
-const hiddenMessage =
-    document.getElementById("hiddenMessage");
+const messageDisplay =
+    document.getElementById("messageDisplay");
 
-const revealedMessage =
-    document.getElementById("revealedMessage");
+const progressBar =
+    document.getElementById("progressBar");
 
-const progressFill =
-    document.getElementById("progressFill");
-
-const hint =
-    document.getElementById("hint");
+const gameHint =
+    document.getElementById("gameHint");
 
 
-/* =========================================
+/* =====================================================
    KEYBOARD
-========================================= */
+===================================================== */
 
-const rows = [
+const KEYBOARD_ROWS = [
     "QWERTYUIOP",
     "ASDFGHJKL",
     "ZXCVBNM"
 ];
 
 
-/* =========================================
-   BUILD HIDDEN MESSAGE
-========================================= */
+/* =====================================================
+   GAME STATE
+===================================================== */
 
-let targetLetters = [];
+let letterPositions = [];
 
-let currentPosition = 0;
+let currentTargetIndex = 0;
 
 
 /*
-   Remove spaces and emoji when determining
-   keyboard letters.
+   Only alphabetic characters are targets.
+
+   Spaces and ❤️ don't require keyboard taps.
 */
 
-const cleanMessage =
+const targetLetters =
     SECRET_MESSAGE
         .toUpperCase()
-        .replace(/[^A-Z]/g, "");
+        .match(/[A-Z]/g) || [];
 
 
-/* =========================================
+/* =====================================================
    START
-========================================= */
+===================================================== */
 
-startBtn.addEventListener("click", () => {
+startButton.addEventListener(
+    "click",
+    () => {
 
-    introScreen.classList.add("hidden");
+        introScreen.classList.add("hidden");
 
-    letterScreen.classList.remove("hidden");
+        gameScreen.classList.remove("hidden");
 
-    createLetterGame();
+        setupGame();
 
-});
-
-
-/* =========================================
-   CREATE GAME
-========================================= */
-
-function createLetterGame() {
-
-    currentPosition = 0;
-
-    targetLetters =
-        cleanMessage.split("");
-
-    /*
-       Show the hidden message as dots.
-    */
-
-    hiddenMessage.textContent =
-        targetLetters
-            .map(() => "•")
-            .join(" ");
+    }
+);
 
 
-    revealedMessage.textContent = "";
+/* =====================================================
+   SETUP
+===================================================== */
 
-    updateProgress();
+function setupGame() {
+
+    currentTargetIndex = 0;
+
+    createMessage();
 
     createKeyboard();
 
-    updateTargetKeys();
+    updateTarget();
+
+    updateProgress();
 
 }
 
 
-/* =========================================
-   CREATE KEYBOARD
-========================================= */
+/* =====================================================
+   MESSAGE DISPLAY
+===================================================== */
 
-function createKeyboard() {
+function createMessage() {
 
-    keyboard.innerHTML = "";
+    messageDisplay.innerHTML = "";
 
-    rows.forEach(row => {
+    letterPositions = [];
 
-        const rowElement =
-            document.createElement("div");
+    let targetIndex = 0;
 
-        rowElement.className =
-            "key-row";
-
-        [...row].forEach(letter => {
-
-            const key =
-                document.createElement("button");
-
-            key.className = "key";
-
-            key.textContent = letter;
-
-            key.dataset.letter = letter;
-
-            key.addEventListener(
-                "click",
-                handleKeyClick
-            );
-
-            rowElement.appendChild(key);
-
-        });
-
-        keyboard.appendChild(rowElement);
-
-    });
-
-}
-
-
-/* =========================================
-   TARGET LETTER
-========================================= */
-
-function updateTargetKeys() {
-
-    /*
-       Remove previous highlights.
-    */
-
-    document
-        .querySelectorAll(".key")
-        .forEach(key => {
-
-            key.classList.remove("target");
-
-        });
-
-
-    if (
-        currentPosition >= targetLetters.length
-    ) {
-        return;
-    }
-
-
-    const target =
-        targetLetters[currentPosition];
-
-
-    /*
-       Highlight every occurrence of the
-       correct letter subtly.
-    */
-
-    document
-        .querySelectorAll(
-            `.key[data-letter="${target}"]`
-        )
-        .forEach(key => {
-
-            key.classList.add("target");
-
-        });
-
-}
-
-
-/* =========================================
-   KEY CLICK
-========================================= */
-
-function handleKeyClick(event) {
-
-    const key =
-        event.currentTarget;
-
-    const selected =
-        key.dataset.letter;
-
-    const correct =
-        targetLetters[currentPosition];
-
-
-    /* Correct */
-
-    if (selected === correct) {
-
-        key.classList.remove("target");
-
-        // Small tap animation, but DO NOT disable the key
-        key.classList.add("correct");
-
-        setTimeout(() => {
-            key.classList.remove("correct");
-        }, 250);
-
-        revealLetter(correct);
-
-        currentPosition++;
-
-        updateProgress();
-
-        updateTargetKeys();
-
-
-        /*
-           Finished!
-        */
-
-        if (
-            currentPosition >=
-            targetLetters.length
-        ) {
-
-            setTimeout(() => {
-
-                finishLetterGame();
-
-            }, 900);
-
-        }
-
-        return;
-    }
-
-
-    /* Wrong */
-
-    key.classList.add("wrong");
-
-    setTimeout(() => {
-
-        key.classList.remove("wrong");
-
-    }, 350);
-
-}
-
-
-/* =========================================
-   REVEAL LETTER
-========================================= */
-
-function revealLetter(letter) {
-
-    const old =
-        revealedMessage.textContent;
-
-    revealedMessage.textContent =
-        old + letter;
-
-    /*
-       Rebuild visible message with spaces
-       approximately where appropriate.
-    */
-
-    const visible =
-        buildVisibleMessage();
-
-    revealedMessage.textContent =
-        visible;
-}
-
-
-/* =========================================
-   BUILD VISIBLE MESSAGE
-========================================= */
-
-function buildVisibleMessage() {
-
-    let output = "";
-
-    let position = 0;
 
     for (
         let i = 0;
@@ -336,127 +147,502 @@ function buildVisibleMessage() {
         i++
     ) {
 
-        const char =
+        const character =
             SECRET_MESSAGE[i];
 
 
+        /*
+           SPACE
+        */
+
+        if (character === " ") {
+
+            const space =
+                document.createElement("span");
+
+            space.className =
+                "message-space";
+
+            space.innerHTML =
+                "&nbsp;";
+
+            messageDisplay.appendChild(
+                space
+            );
+
+            continue;
+        }
+
+
+        /*
+           Letter
+        */
+
+        const char =
+            document.createElement("span");
+
+        char.className =
+            "message-char hidden-char";
+
+        char.textContent =
+            character.toUpperCase();
+
+
+        /*
+           Only alphabetic characters
+           are part of the game.
+        */
+
         if (
-            /[A-Za-z]/.test(char)
+            /[A-Z]/i.test(character)
         ) {
 
-            if (
-                position < currentPosition
-            ) {
+            char.dataset.targetIndex =
+                targetIndex;
 
-                output +=
-                    char.toUpperCase();
+            letterPositions.push(char);
 
-            } else {
-
-                output += "•";
-
-            }
-
-            position++;
+            targetIndex++;
 
         } else {
 
-            output += char;
+            /*
+               Emoji such as ❤️
+               stays visible.
+            */
+
+            char.classList.remove(
+                "hidden-char"
+            );
+
+            char.classList.add(
+                "revealed"
+            );
 
         }
 
+
+        messageDisplay.appendChild(
+            char
+        );
+
     }
 
-    return output;
 }
 
 
-/* =========================================
+/* =====================================================
+   KEYBOARD
+===================================================== */
+
+function createKeyboard() {
+
+    keyboard.innerHTML = "";
+
+
+    KEYBOARD_ROWS.forEach(
+        row => {
+
+            const rowElement =
+                document.createElement("div");
+
+            rowElement.className =
+                "key-row";
+
+
+            [...row].forEach(
+                letter => {
+
+                    const button =
+                        document.createElement("button");
+
+                    button.type =
+                        "button";
+
+                    button.className =
+                        "key";
+
+                    button.textContent =
+                        letter;
+
+                    button.dataset.letter =
+                        letter;
+
+
+                    /*
+                       IMPORTANT:
+
+                       The key is NEVER removed.
+
+                       It gets another click
+                       listener every time the
+                       game is initialized.
+                    */
+
+                    button.addEventListener(
+                        "click",
+                        () => handleKey(button)
+                    );
+
+
+                    rowElement.appendChild(
+                        button
+                    );
+
+                }
+            );
+
+
+            keyboard.appendChild(
+                rowElement
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   TARGET
+===================================================== */
+
+function updateTarget() {
+
+    /*
+       Remove glow from ALL keys.
+    */
+
+    document
+        .querySelectorAll(".key")
+        .forEach(
+            key => {
+
+                key.classList.remove(
+                    "target"
+                );
+
+            }
+        );
+
+
+    /*
+       Game complete
+    */
+
+    if (
+        currentTargetIndex >=
+        targetLetters.length
+    ) {
+
+        return;
+
+    }
+
+
+    const target =
+        targetLetters[
+            currentTargetIndex
+        ];
+
+
+    /*
+       Find the correct keyboard key.
+
+       There is only one key for each
+       alphabet letter.
+
+       It stays there permanently.
+    */
+
+    const targetKey =
+        document.querySelector(
+            `.key[data-letter="${target}"]`
+        );
+
+
+    if (targetKey) {
+
+        targetKey.classList.add(
+            "target"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   HANDLE KEY
+===================================================== */
+
+function handleKey(key) {
+
+    const selected =
+        key.dataset.letter;
+
+    const correct =
+        targetLetters[
+            currentTargetIndex
+        ];
+
+
+    /*
+       CORRECT LETTER
+    */
+
+    if (
+        selected === correct
+    ) {
+
+        /*
+           Tap animation only.
+
+           WE DO NOT:
+           - remove the key
+           - hide the key
+           - disable the key
+           - add pointer-events:none
+        */
+
+        key.classList.add(
+            "correct-tap"
+        );
+
+
+        setTimeout(
+            () => {
+
+                key.classList.remove(
+                    "correct-tap"
+                );
+
+            },
+            180
+        );
+
+
+        /*
+           Reveal the corresponding
+           character in the message.
+        */
+
+        const character =
+            letterPositions[
+                currentTargetIndex
+            ];
+
+
+        if (character) {
+
+            character.classList.remove(
+                "hidden-char"
+            );
+
+            character.classList.add(
+                "revealed"
+            );
+
+        }
+
+
+        currentTargetIndex++;
+
+
+        updateProgress();
+
+        updateTarget();
+
+
+        /*
+           Finished
+        */
+
+        if (
+            currentTargetIndex >=
+            targetLetters.length
+        ) {
+
+            finishGame();
+
+        }
+
+        return;
+
+    }
+
+
+    /*
+       WRONG LETTER
+    */
+
+    key.classList.add(
+        "wrong-tap"
+    );
+
+
+    setTimeout(
+        () => {
+
+            key.classList.remove(
+                "wrong-tap"
+            );
+
+        },
+        300
+    );
+
+}
+
+
+/* =====================================================
    PROGRESS
-========================================= */
+===================================================== */
 
 function updateProgress() {
 
-    const percent =
+    const percentage =
         (
-            currentPosition /
+            currentTargetIndex /
             targetLetters.length
         ) * 100;
 
-    progressFill.style.width =
-        percent + "%";
+
+    progressBar.style.width =
+        `${percentage}%`;
 
 }
 
 
-/* =========================================
-   FINISH LETTER GAME
-========================================= */
+/* =====================================================
+   GAME FINISHED
+===================================================== */
 
-function finishLetterGame() {
+function finishGame() {
 
-    /*
-       Strong confetti burst
-    */
+    gameHint.textContent =
+        "You found every letter ❤️";
 
-    burstConfetti(240);
-
-    hint.textContent =
-        "You found it ❤️";
 
     /*
-       Wait, then reveal photograph.
+       Small celebration when
+       the hidden message is completed.
     */
 
-    setTimeout(() => {
+    launchConfetti(180);
 
-        letterScreen.classList.add("hidden");
 
-        photoScreen.classList.remove("hidden");
+    /*
+       Then reveal the photo.
+    */
 
-    }, 1400);
+    setTimeout(
+        () => {
+
+            gameScreen.classList.add(
+                "hidden"
+            );
+
+            photoScreen.classList.remove(
+                "hidden"
+            );
+
+        },
+        1300
+    );
 
 }
 
 
-/* =========================================
+/* =====================================================
    PHOTO → FINAL
-========================================= */
+===================================================== */
 
-finalBtn.addEventListener("click", () => {
+finalButton.addEventListener(
+    "click",
+    () => {
 
-    photoScreen.classList.add("hidden");
+        photoScreen.classList.add(
+            "hidden"
+        );
 
-    finalScreen.classList.remove("hidden");
-
-    burstConfetti(320);
-
-});
+        finalScreen.classList.remove(
+            "hidden"
+        );
 
 
-/* =========================================
-   CONFETTI
-========================================= */
+        /*
+           Big first celebration
+        */
+
+        launchConfetti(280);
+
+    }
+);
+
+
+/* =====================================================
+   CONFETTI CANVAS
+===================================================== */
 
 const canvas =
-    document.getElementById("confetti");
+    document.getElementById(
+        "confettiCanvas"
+    );
 
 const ctx =
     canvas.getContext("2d");
 
+
 let particles = [];
+
+let animationRunning =
+    false;
+
+let lastFrameTime = 0;
+
+
+/* =====================================================
+   CANVAS SIZE
+===================================================== */
 
 function resizeCanvas() {
 
+    const dpr =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
+        );
+
+
     canvas.width =
-        window.innerWidth;
+        window.innerWidth * dpr;
 
     canvas.height =
-        window.innerHeight;
+        window.innerHeight * dpr;
+
+
+    canvas.style.width =
+        window.innerWidth + "px";
+
+    canvas.style.height =
+        window.innerHeight + "px";
+
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
 
 }
 
+
 resizeCanvas();
+
 
 window.addEventListener(
     "resize",
@@ -464,54 +650,131 @@ window.addEventListener(
 );
 
 
-/* =========================================
+/* =====================================================
    CREATE CONFETTI
-========================================= */
+===================================================== */
 
-function burstConfetti(amount = 200) {
+function launchConfetti(
+    amount = 250
+) {
 
-    for (let i = 0; i < amount; i++) {
+    /*
+       IMPORTANT:
+
+       We ADD particles to the existing
+       array instead of replacing it.
+
+       Therefore:
+
+       Tap → burst
+       Tap → another burst
+       Tap → another burst
+       Tap → another burst
+
+       Every tap works.
+    */
+
+
+    const centerX =
+        window.innerWidth / 2;
+
+    const centerY =
+        window.innerHeight * .48;
+
+
+    for (
+        let i = 0;
+        i < amount;
+        i++
+    ) {
+
+        const angle =
+            Math.random() *
+            Math.PI *
+            2;
+
+
+        const speed =
+            6 +
+            Math.random() * 15;
+
 
         particles.push({
 
             x:
-                canvas.width / 2,
+                centerX +
+                (Math.random() - .5) *
+                80,
 
             y:
-                canvas.height * .45,
+                centerY +
+                (Math.random() - .5) *
+                50,
+
 
             vx:
-                (Math.random() - .5) * 18,
+                Math.cos(angle) *
+                speed,
 
             vy:
-                (Math.random() - .5) * 18 - 6,
+                Math.sin(angle) *
+                speed -
+                6,
+
 
             gravity:
-                .25,
+                .22 +
+                Math.random() * .12,
+
+
+            drag:
+                .985,
+
 
             size:
-                Math.random() * 7 + 3,
+                4 +
+                Math.random() * 7,
+
+
+            width:
+                5 +
+                Math.random() * 8,
+
+
+            height:
+                8 +
+                Math.random() * 14,
+
 
             rotation:
-                Math.random() * 6,
+                Math.random() *
+                Math.PI *
+                2,
+
 
             rotationSpeed:
-                (Math.random() - .5) * .3,
+                (Math.random() - .5) *
+                .3,
+
 
             life:
                 1,
 
+
             decay:
-                Math.random() * .008 + .004,
+                .004 +
+                Math.random() *
+                .006,
+
 
             color:
                 [
-                    "#ff5c8a",
-                    "#ffcf70",
+                    "#ff4f86",
+                    "#ff709b",
+                    "#ffca70",
                     "#ffffff",
-                    "#ff9abb",
-                    "#b98cff",
-                    "#72d8ff"
+                    "#b78cff",
+                    "#70d8ff"
                 ][
                     Math.floor(
                         Math.random() * 6
@@ -522,93 +785,180 @@ function burstConfetti(amount = 200) {
 
     }
 
+
+    /*
+       Start animation if it isn't
+       already running.
+    */
+
     if (!animationRunning) {
 
         animationRunning = true;
 
-        animateConfetti();
+        lastFrameTime = 0;
+
+        requestAnimationFrame(
+            animateConfetti
+        );
 
     }
 
 }
 
 
-let animationRunning = false;
-
-
-/* =========================================
+/* =====================================================
    CONFETTI ANIMATION
-========================================= */
+===================================================== */
 
-function animateConfetti() {
+function animateConfetti(
+    timestamp
+) {
+
+    if (!lastFrameTime) {
+
+        lastFrameTime =
+            timestamp;
+
+    }
+
+
+    /*
+       Delta time keeps the animation
+       consistent across refresh rates.
+    */
+
+    const delta =
+        Math.min(
+            (timestamp -
+                lastFrameTime) /
+                16.67,
+            2
+        );
+
+
+    lastFrameTime =
+        timestamp;
+
 
     ctx.clearRect(
         0,
         0,
-        canvas.width,
-        canvas.height
+        window.innerWidth,
+        window.innerHeight
     );
 
 
-    particles.forEach((p, index) => {
+    for (
+        let i = particles.length - 1;
+        i >= 0;
+        i--
+    ) {
 
-        p.x += p.vx;
+        const p =
+            particles[i];
 
-        p.y += p.vy;
 
-        p.vy += p.gravity;
+        /*
+           Physics
+        */
 
-        p.vx *= .995;
+        p.vx *=
+            Math.pow(
+                p.drag,
+                delta
+            );
+
+        p.vy +=
+            p.gravity *
+            delta;
+
+
+        p.x +=
+            p.vx *
+            delta;
+
+        p.y +=
+            p.vy *
+            delta;
+
 
         p.rotation +=
-            p.rotationSpeed;
+            p.rotationSpeed *
+            delta;
 
-        p.life -= p.decay;
 
+        p.life -=
+            p.decay *
+            delta;
+
+
+        /*
+           Draw
+        */
 
         ctx.save();
 
         ctx.globalAlpha =
-            Math.max(0, p.life);
+            Math.max(
+                p.life,
+                0
+            );
+
 
         ctx.translate(
             p.x,
             p.y
         );
 
+
         ctx.rotate(
             p.rotation
         );
 
+
         ctx.fillStyle =
             p.color;
 
+
         ctx.fillRect(
-            -p.size / 2,
-            -p.size / 2,
-            p.size,
-            p.size * 1.8
+            -p.width / 2,
+            -p.height / 2,
+            p.width,
+            p.height
         );
+
 
         ctx.restore();
 
 
+        /*
+           Remove dead particles
+        */
+
         if (
             p.life <= 0 ||
-            p.y > canvas.height + 50
+            p.y >
+                window.innerHeight +
+                100
         ) {
 
             particles.splice(
-                index,
+                i,
                 1
             );
 
         }
 
-    });
+    }
 
 
-    if (particles.length > 0) {
+    /*
+       Continue while particles exist.
+    */
+
+    if (
+        particles.length > 0
+    ) {
 
         requestAnimationFrame(
             animateConfetti
@@ -616,22 +966,71 @@ function animateConfetti() {
 
     } else {
 
-        animationRunning = false;
+        animationRunning =
+            false;
+
+        lastFrameTime = 0;
 
     }
 
 }
 
 
-/* =========================================
-   FINAL CONFETTI
-========================================= */
+/* =====================================================
+   "LET'S CELEBRATE"
+===================================================== */
 
-confettiBtn.addEventListener(
+celebrateButton.addEventListener(
     "click",
     () => {
 
-        burstConfetti(350);
+        /*
+           THIS HAPPENS EVERY SINGLE TAP.
+        */
+
+        launchConfetti(350);
+
+
+        /*
+           Change the little text so
+           the user knows repeated taps work.
+        */
+
+        celebrateHint.textContent =
+            "Again? Tap it again 🎉";
+
+
+        /*
+           Little button animation.
+        */
+
+        celebrateButton.animate(
+            [
+                {
+                    transform:
+                        "scale(1)"
+                },
+
+                {
+                    transform:
+                        "scale(0.90)"
+                },
+
+                {
+                    transform:
+                        "scale(1.08)"
+                },
+
+                {
+                    transform:
+                        "scale(1)"
+                }
+            ],
+            {
+                duration: 350,
+                easing: "ease-out"
+            }
+        );
 
     }
 );
